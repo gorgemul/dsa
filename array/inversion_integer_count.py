@@ -36,6 +36,6 @@ def merge_and_split_count(lst: list[int], l: int, r: int) -> int:
     return count
 
 if __name__ == "__main__":
-    with open("integerList.txt", "r+") as f:
+    with open("integer_list.txt", "r+") as f:
         num_lst = [int(line) for line in f]
         print(merge_sort_and_inversion_count(num_lst))
