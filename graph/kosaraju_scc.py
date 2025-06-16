@@ -27,18 +27,19 @@ class Graph:
                 self.get_scc(head, visited, scc)
 
 if __name__ == "__main__":
-   graph = Graph(init_graph)
-   transpose_graph = graph.transpose()
-   visited = set()
-   time_stack = []
-   for vertex in transpose_graph.graph.keys():
+    graph = Graph(init_graph)
+    transpose_graph = graph.transpose()
+    visited = set()
+    time_stack = []
+    for vertex in transpose_graph.graph.keys():
        if vertex not in visited:
            transpose_graph.find_finish_time(vertex, visited, time_stack)
-   visited = set()
-   sccs = []
-   while len(time_stack) > 0:
+    visited = set()
+    sccs = []
+    while len(time_stack) > 0:
        scc = []
        vertex = time_stack.pop()
        if vertex not in visited:
            graph.get_scc(vertex, visited, scc)
            sccs.append(scc)
+    print(sccs)
