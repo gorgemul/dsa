@@ -7,7 +7,6 @@ delete:
     3. has two child
         3.1 find the pred and swap it with the delete node
 """
-
 """
 1. build
 2. search
@@ -15,8 +14,8 @@ delete:
 4. traversal(print in order)
 5. find min and max
 6. find succ, pred
-7. delte
-8. swap
+7. delete
+8. rotation(left and right, left means that parent x and its right child y)
 """
 
 class Node:
@@ -28,6 +27,60 @@ class Node:
         print(f"{4 * level * " "}{prefix}{self.val}")
         if self.left: self.left.dump(level+1, prefix="l-")
         if self.right: self.right.dump(level+1, prefix="r-")
+    def search(self, val):
+        if self.val == val: return self
+        if val > self.val and self.right:
+            return self.right.search(val)
+        if val < self.val and self.left:
+            return self.left.search(val)
+        return None
+    def insert(self, val):
+        if val == self.val:
+            new_node = Node(val)
+            new_node.left = self.left
+            self.left = new_node
+        elif val > self.val:
+            if not self.right:
+                new_node = Node(val)
+                self.right = new_node
+                return
+            self.right.insert(val)
+        else:
+            if not self.left:
+                new_node = Node(val)
+                self.left = new_node
+                return
+            self.left.insert(val)
+    def traverse_dump(self):
+        if self.left: self.left.traverse_dump()
+        print(self.val, end=" ")
+        if self.right: self.right.traverse_dump()
+    def get_min(self):
+        if not self.left: return self
+        return self.left.get_min()
+    def get_max(self):
+        if not self.right: return self
+        return self.right.get_max()
+    def find_succ(self, val, first=True):
+        if first:
+            node = self.search(val)
+            if not node or not self.right: return None
+            return self.right.find_succ(val, False)
+        else:
+            if not self.left: return self
+            return self.left.find_succ(val, False)
+    def find_pred(self, val, first=True):
+        if first:
+            node = self.search(val)
+            if not node or not self.left: return None
+            return self.left.find_pred(val, False)
+        else:
+            if not self.right: return self
+            return self.right.find_pred(val, False)
+    def delete(self, val):
+        pass
+
+
 
 def build_bst(lst: list[int]) -> Node | None:
     copy_lst = lst[:]
