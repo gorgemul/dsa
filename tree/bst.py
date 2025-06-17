@@ -1,21 +1,8 @@
 """
-delete:
-    1. no child -- just remove it
-    2. has one child
-        1.1 right child, find the succ and swap it with the remove one, and let its parent adopt its right child(since it can't have the left child, or it won't be the succ)
-        1.2 left child, find the prev and swap it with the remove one, and let it's parent adopt it's left child
-    3. has two child
-        3.1 find the pred and swap it with the delete node
-"""
-"""
-1. build
-2. search
-3. insert
-4. traversal(print in order)
-5. find min and max
-6. find succ, pred
-7. delete
-8. rotation(left and right, left means that parent x and its right child y)
+          15
+     8           21
+   5   12     19   50
+ 4  7 10 13 18 20 25
 """
 
 class Node:
@@ -78,10 +65,20 @@ class Node:
             if not self.right: return self
             return self.right.find_pred(val, False)
     def delete(self, val):
-        pass
-
-
-
+        if val < self.val:
+            if self.left: self.left = self.left.delete(val)
+        elif val > self.val:
+            if self.right: self.right = self.right.delete(val)
+        else:
+            if not self.left and not self.right: return None
+            if self.left and not self.right: return self.left
+            if self.right and not self.left: return self.right
+            pred = self.find_pred(self.val)
+            if pred and self.left:
+                self.val, pred.val = pred.val, self.val
+                self.left = self.left.delete(val)
+        return self
+            
 def build_bst(lst: list[int]) -> Node | None:
     copy_lst = lst[:]
     copy_lst.sort()
