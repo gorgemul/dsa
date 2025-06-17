@@ -1,5 +1,4 @@
-"""
-          15
+""" 15
      8           21
    5   12     19   50
  4  7 10 13 18 20 25
@@ -78,6 +77,28 @@ class Node:
                 self.val, pred.val = pred.val, self.val
                 self.left = self.left.delete(val)
         return self
+    def left_rotation(self, parent_val, right_child_val):
+        parent, right_child = self.search(parent_val), self.search(right_child_val)
+        if not parent or not right_child: return
+        left_child = parent.left
+        left_grandson = right_child.left
+        right_grandson = right_child.right
+        parent.val, right_child.val = right_child.val, parent.val
+        parent.left = right_child
+        parent.right = right_grandson
+        right_child.left = left_child
+        right_child.right = left_grandson
+    def right_rotation(self, parent_val, left_child_val):
+        parent, left_child = self.search(parent_val), self.search(left_child_val)
+        if not parent or not left_child: return
+        right_child = parent.right
+        left_grandson = left_child.left
+        right_grandson = left_child.right
+        parent.val, left_child.val = left_child.val, parent.val
+        parent.right = left_child
+        parent.left = left_grandson
+        left_child.left = right_grandson
+        left_child.right = right_child
             
 def build_bst(lst: list[int]) -> Node | None:
     copy_lst = lst[:]
@@ -95,6 +116,7 @@ def build_bst_recursive(lst: list[int]) -> Node | None:
 def main():
     root = build_bst([10,5,4,8,7,20,15,13,12,18,19,50,25,21])
     if not root: return
+    root.right_rotation(8, 5)
     root.dump()
 
 if __name__ == "__main__":
