@@ -1,18 +1,29 @@
-"""
-odd: n / 2
-even: n / 2 -1
-if len max_heap >= min_heap:
-    return max in max_heap
-else:
-    return min in min_heap
-diff of two heap can only be 1
-"""
-import heapq
+from heapq import heappush, heappop
 
-nums = [20,10,50,25,99,17,14,5,8,19]
+class Median:
+    def __init__(self, nums = []):
+        self.max_heap = []
+        self.min_heap = []
+        for i in nums: self.add(i)
+    def add(self, val):
+        mid = float("inf") if len(self.max_heap) == 0 else abs(self.max_heap[0])
+        if val <= mid:
+            heappush(self.max_heap, -val)
+        else:
+            heappush(self.min_heap, val)
+        if len(self.max_heap) - len(self.min_heap) == 2:
+            heappush(self.min_heap, abs(heappop(self.max_heap)))
+        elif len(self.min_heap) - len(self.max_heap) == 2:
+            heappush(self.max_heap, -heappop(self.min_heap))
+    def get(self):
+        if len(self.min_heap) == 0 and len(self.max_heap) == 0: return None
+        if len(self.max_heap) >= len(self.min_heap):
+            return abs(heappop(self.max_heap))
+        else:
+            return heappop(self.min_heap)
 
-def median_maintenance(nums):
-    min_heap = []
-    max_heap = []
-    for num in nums:
-        
+if __name__ == "__main__":
+    with open("number_streams.txt", "r") as file:
+        nums = [int(i) for i in file]
+        median = Median(nums)
+        print(median.get())

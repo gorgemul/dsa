@@ -1,9 +1,3 @@
-""" 15
-     8           21
-   5   12     19   50
- 4  7 10 13 18 20 25
-"""
-
 class Node:
     def __init__(self, val):
         self.val: int = val
