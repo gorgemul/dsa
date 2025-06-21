@@ -52,8 +52,8 @@ class Node:
     def find_pred(self, val, first=True):
         if first:
             node = self.search(val)
-            if not node or not self.left: return None
-            return self.left.find_pred(val, False)
+            if not node or not node.left: return None
+            return node.left.find_pred(val, False)
         else:
             if not self.right: return self
             return self.right.find_pred(val, False)
